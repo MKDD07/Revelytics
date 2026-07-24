@@ -1,3 +1,15 @@
+# Ignore all HTML files by default
+*.html
+
+# Un-ignore only requested pages
+!index.html
+!about-us-light.html
+!contact-us-light.html
+!faq-light.html
+!blog-light.html
+!blog-details-light.html
+
+# Dependencies & Build artifacts
 node_modules/
 .DS_Store
 Thumbs.db
