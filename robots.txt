@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+
+# Block AI crawlers & LLM web scrapers (Optional - remove if you want LLMs to crawl your site)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Anthropic-AI
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+# Sitemap Location
+Sitemap: https://yourdomain.com/sitemap.xml
