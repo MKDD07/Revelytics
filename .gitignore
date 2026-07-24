@@ -8,6 +8,12 @@
 !faq-light.html
 !blog-light.html
 !blog-details-light.html
+!service-details-booking-solutions.html
+!service-details-influencer-marketing.html
+!service-details-light.html
+!service-details-performance-ads.html
+!service-details-social-media.html
+!service-details-travel-seo.html
 
 # Dependencies & Build artifacts
 node_modules/
