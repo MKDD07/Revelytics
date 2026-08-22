@@ -1,5 +1,6 @@
 export interface Env {
   DB: D1Database;
+  ASSETS: Fetcher;
   PEXELS_API_KEY?: string;
   SERPAPI_API_KEY?: string;
 }
@@ -21,34 +22,9 @@ export default {
     }
 
     try {
-      // 0. GET / (Root API Status & Index)
-      if (path === "/" || path === "") {
-        return new Response(
-          JSON.stringify(
-            {
-              status: "online",
-              service: "Revelytics Cloudflare Worker & D1 API",
-              database_id: "6f0f1928-9284-4184-8b0e-333ada672515",
-              endpoints: {
-                services: `${url.origin}/api/services`,
-                service_detail: `${url.origin}/api/services/:slug`,
-                pexels_proxy: `${url.origin}/api/pexels?query=luxury+hotel`,
-                serpapi_proxy: `${url.origin}/api/serpapi?q=hotels+in+india`,
-              },
-            },
-            null,
-            2
-          ),
-          {
-            headers: {
-              "Content-Type": "application/json",
-              ...corsHeaders,
-            },
-          }
-        );
-      }
+      // ─── API ROUTES ────────────────────────────────────────────────────────
 
-      // 1. GET /api/services or /services
+      // 1. GET /api/services
       if (path === "/api/services" || path === "/services") {
         const services = await env.DB.prepare(
           "SELECT * FROM services WHERE is_active = 1 ORDER BY display_order ASC, id ASC"
@@ -166,10 +142,20 @@ export default {
         });
       }
 
-      return new Response(JSON.stringify({ error: "Endpoint not found", path }), {
-        status: 404,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
+      // ─── STATIC SITE (React App) ────────────────────────────────────────────
+      // For all non-API routes, serve the React app from the dist/ folder.
+      // For SPA routing: unknown paths → return index.html so React Router handles it.
+      const assetResponse = await env.ASSETS.fetch(request);
+
+      // If ASSETS returns 404 (e.g. /services/some-slug), serve index.html instead
+      // so React Router can handle client-side routing.
+      if (assetResponse.status === 404) {
+        const indexRequest = new Request(new URL("/index.html", url.origin).toString(), request);
+        return env.ASSETS.fetch(indexRequest);
+      }
+
+      return assetResponse;
+
     } catch (err: any) {
       return new Response(JSON.stringify({ error: err.message || "Internal error" }), {
         status: 500,

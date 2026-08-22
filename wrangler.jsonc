@@ -3,7 +3,10 @@
   "name": "revelytics",
   "main": "worker.ts",
   "compatibility_date": "2026-08-05",
-  "pages_build_output_dir": "./dist",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
   "d1_databases": [
     {
       "binding": "DB",
