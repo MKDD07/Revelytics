@@ -1,19 +1,14 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "revelytics",
-  "compatibility_date": "2026-07-24",
-  "observability": {
-    "enabled": true
-  },
-  "assets": {
-    "directory": ".",
-    "exclude": [
-      "node_modules/**",
-      ".git/**",
-      ".wrangler/**"
-    ]
-  },
-  "compatibility_flags": [
-    "nodejs_compat"
+  "main": "worker.ts",
+  "compatibility_date": "2026-08-05",
+  "pages_build_output_dir": "./dist",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "revelytics-db",
+      "database_id": "6f0f1928-9284-4184-8b0e-333ada672515"
+    }
   ]
 }
