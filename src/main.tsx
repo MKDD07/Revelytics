@@ -7,6 +7,8 @@ import ServicesDigitalPage from "./pages/services/ServicesDigitalPage";
 import ServiceTravelPage from "./pages/services/ServiceTravelPage";
 import ServicesCollectionPage from "./pages/services/ServicesCollectionPage";
 import DynamicServiceDetailPage from "./pages/services/DynamicServiceDetailPage";
+import BlogCollectionPage from "./pages/blog/BlogCollectionPage";
+import BlogDetailsPage from "./pages/blog/BlogDetailsPage";
 import { ScrollToTop } from "./components/utils/ScrollToTop";
 
 const rootContainer = document.getElementById("root");
@@ -22,6 +24,9 @@ root.render(
         <Route path="/services/digital" element={<ServicesDigitalPage />} />
         <Route path="/services/travel" element={<ServiceTravelPage />} />
         <Route path="/services/:slug" element={<DynamicServiceDetailPage />} />
+        <Route path="/blog" element={<BlogCollectionPage />} />
+        <Route path="/blog/:slug" element={<BlogDetailsPage />} />
+        <Route path="/blog-details" element={<BlogDetailsPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
