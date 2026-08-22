@@ -68,6 +68,9 @@ export const Offcanvas: React.FC = () => {
                 <li>
                   <Link to="/">Home</Link>
                 </li>
+                <li>
+                  <Link to="/about-us">About Us</Link>
+                </li>
                 <li className={`has-dropdown ${openDropdowns["services"] ? "active" : ""}`}>
                   <div className="d-flex align-items-center justify-content-between">
                     <Link to="/services">Services</Link>
@@ -112,10 +115,16 @@ export const Offcanvas: React.FC = () => {
                   )}
                 </li>
                 <li>
-                  <Link to="/services">All Services</Link>
+                  <Link to="/case-studies">Case Studies</Link>
                 </li>
                 <li>
-                  <a href="#contact">Contact</a>
+                  <Link to="/blog">Blog</Link>
+                </li>
+                <li>
+                  <Link to="/contact-us">Contact Us</Link>
+                </li>
+                <li>
+                  <Link to="/career">Career</Link>
                 </li>
               </ul>
             </nav>

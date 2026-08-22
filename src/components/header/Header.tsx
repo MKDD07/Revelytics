@@ -49,6 +49,9 @@ export const Header: React.FC = () => {
                     <li>
                       <Link to="/">Home</Link>
                     </li>
+                    <li>
+                      <Link to="/about-us">About Us</Link>
+                    </li>
                     <li className="has-dropdown">
                       <Link to="/services">Services</Link>
                       {navServices.length > 0 && (
@@ -71,10 +74,16 @@ export const Header: React.FC = () => {
                       )}
                     </li>
                     <li>
-                      <Link to="/services">All Services</Link>
+                      <Link to="/case-studies">Case Studies</Link>
                     </li>
                     <li>
-                      <a href="#contact">Contact</a>
+                      <Link to="/blog">Blog</Link>
+                    </li>
+                    <li>
+                      <Link to="/contact-us">Contact Us</Link>
+                    </li>
+                    <li>
+                      <Link to="/career">Career</Link>
                     </li>
                   </ul>
                 </nav>
