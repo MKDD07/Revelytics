@@ -46,7 +46,6 @@ export const TpBlogMasonaryArea: React.FC = () => {
                 <BlogCard
                   post={post}
                   delay={`.${(index % 4) + 3}`}
-                  fallbackImg={`/assets/img/blog/col-4/thumb${index > 0 ? `-${(index % 6) + 1}` : ""}.jpg`}
                 />
               </div>
             ))}

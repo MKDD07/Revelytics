@@ -107,6 +107,15 @@ function applyMedia(el, type, url) {
     el.load?.();
   } else {
     el.src = url;
+    // Enforce 408x360 sizing for all pexels images unless parent overrides
+    if (!el.closest(".tp-banner-thumb") && !el.closest(".ca-portfolio") && !el.closest(".tp-about-thumb") && !el.closest(".subscribe-popup")) {
+      el.style.width = "100%";
+      el.style.maxWidth = "408px";
+      el.style.height = "360px";
+      el.style.objectFit = "cover";
+      el.setAttribute("width", "408");
+      el.setAttribute("height", "360");
+    }
   }
 }
 

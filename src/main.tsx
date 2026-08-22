@@ -10,6 +10,7 @@ import DynamicServiceDetailPage from "./pages/services/DynamicServiceDetailPage"
 import BlogCollectionPage from "./pages/blog/BlogCollectionPage";
 import BlogDetailsPage from "./pages/blog/BlogDetailsPage";
 import { ScrollToTop } from "./components/utils/ScrollToTop";
+import { BarbaPageTransition } from "./components/transitions/BarbaPageTransition";
 
 const rootContainer = document.getElementById("root");
 const root = createRoot(rootContainer!);
@@ -18,16 +19,18 @@ root.render(
   <StrictMode>
     <BrowserRouter>
       <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/services" element={<ServicesCollectionPage />} />
-        <Route path="/services/digital" element={<ServicesDigitalPage />} />
-        <Route path="/services/travel" element={<ServiceTravelPage />} />
-        <Route path="/services/:slug" element={<DynamicServiceDetailPage />} />
-        <Route path="/blog" element={<BlogCollectionPage />} />
-        <Route path="/blog/:slug" element={<BlogDetailsPage />} />
-        <Route path="/blog-details" element={<BlogDetailsPage />} />
-      </Routes>
+      <BarbaPageTransition>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/services" element={<ServicesCollectionPage />} />
+          <Route path="/services/digital" element={<ServicesDigitalPage />} />
+          <Route path="/services/travel" element={<ServiceTravelPage />} />
+          <Route path="/services/:slug" element={<DynamicServiceDetailPage />} />
+          <Route path="/blog" element={<BlogCollectionPage />} />
+          <Route path="/blog/:slug" element={<BlogDetailsPage />} />
+          <Route path="/blog-details" element={<BlogDetailsPage />} />
+        </Routes>
+      </BarbaPageTransition>
     </BrowserRouter>
   </StrictMode>
 );

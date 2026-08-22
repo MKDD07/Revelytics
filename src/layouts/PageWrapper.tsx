@@ -14,11 +14,6 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({ children }) => {
 
   return (
     <>
-      {/* preloader */}
-      <div id="preloader">
-        <div className="preloader"><span></span><span></span></div>
-      </div>
-
       {/* magic cursor */}
       <div id="magic-cursor" className="cursor-black-bg"><div id="ball"></div></div>
 

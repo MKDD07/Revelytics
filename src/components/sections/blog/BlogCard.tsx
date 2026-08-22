@@ -27,30 +27,38 @@ interface BlogCardProps {
 export const BlogCard: React.FC<BlogCardProps> = ({
   post,
   delay = ".3",
-  fallbackImg = "/assets/img/blog/col-4/thumb.jpg",
+  fallbackImg = "https://images.pexels.com/photos/23696835/pexels-photo-23696835.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
 }) => {
-  const pexelsQuery = post.og_image_query || post.thumb1_query || "luxury hotel resort";
+  const pexelsQuery = post.og_image_query || post.thumb1_query || "luxury resort infinity pool sunset tropical";
   const postDate = post.published_at
     ? new Date(post.published_at).getFullYear()
     : "2026";
 
   return (
     <div className="mp-blog-item tp-hover-item mb-55 tp_fade_anim" data-delay={delay}>
-      <Link to={`/blog/${post.slug}`} className="mp-blog-thumb mb-25 p-relative fix d-block">
+      <Link
+        to={`/blog/${post.slug}`}
+        className="mp-blog-thumb mb-25 p-relative fix d-block"
+        style={{ width: "408px", maxWidth: "100%", height: "360px", overflow: "hidden", borderRadius: "12px" }}
+      >
         <div
           className="tp-hover-img"
           data-displacement="/assets/img/imghover/fluid.jpg"
           data-intensity="0.2"
           data-speedin="1"
           data-speedout="1"
+          style={{ width: "408px", maxWidth: "100%", height: "360px", overflow: "hidden", borderRadius: "12px" }}
         >
           <img
             data-pexels={pexelsQuery}
             data-type="image"
             data-quality="large"
             className="w-100"
+            width={408}
+            height={360}
+            style={{ width: "100%", height: "360px", objectFit: "cover", borderRadius: "12px" }}
             src={fallbackImg}
-            alt={post.og_image_alt || ""}
+            alt={post.og_image_alt || post.title || "Luxury Resort Sunset View"}
           />
         </div>
       </Link>

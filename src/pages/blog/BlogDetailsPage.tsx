@@ -67,20 +67,7 @@ export const BlogDetailsPage: React.FC = () => {
     }
   }, [loading, post]);
 
-  if (loading) {
-    return (
-      <PageWrapper>
-        <div className="container py-120 text-center">
-          <div className="spinner-border text-danger" role="status">
-            <span className="visually-hidden">Loading article from Cloudflare D1...</span>
-          </div>
-          <p className="mt-3 text-muted">Fetching article from Cloudflare D1...</p>
-        </div>
-      </PageWrapper>
-    );
-  }
-
-  if (notFound || !post) {
+  if (notFound && !loading) {
     return (
       <PageWrapper>
         <div className="container py-120 text-center">
@@ -99,18 +86,24 @@ export const BlogDetailsPage: React.FC = () => {
     );
   }
 
+  const postTitle = post?.title || activeSlug.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+  const postAuthor = post?.author_name || "Revelytics Team";
+  const postDate = post?.published_at || "2026";
+  const postImageQuery = post?.og_image_query || "luxury resort pool sunset";
+  const postImageAlt = post?.og_image_alt || postTitle;
+
   return (
     <PageWrapper>
       <TpBlogGridArea
-        title={post.title}
-        authorName={post.author_name}
-        publishedAt={post.published_at}
+        title={postTitle}
+        authorName={postAuthor}
+        publishedAt={postDate}
       />
       <TpBannerThumb
-        imageQuery={post.og_image_query || `${post.category} luxury resort`}
-        altText={post.og_image_alt || post.title}
+        imageQuery={postImageQuery}
+        altText={postImageAlt}
       />
-      <PostboxArea post={post} />
+      {post && <PostboxArea post={post} />}
     </PageWrapper>
   );
 };

@@ -42,6 +42,7 @@ export async function loadTemplateScripts(): Promise<void> {
     "/assets/js/ajax-form.js",
     "/assets/js/slider-init.js",   // Swiper slider init
     "/assets/js/main.js",          // All GSAP animations — runs last
+    "/assets/js/smooth-scroll.js", // GSAP smooth scroll — desktop only
     "/assets/js/pexels.js",
     "/assets/js/tp-cursor.js",
   ];

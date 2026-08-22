@@ -170,20 +170,7 @@ export const DynamicServiceDetailPage: React.FC = () => {
     }
   }, [d1Data]);
 
-  if (loading) {
-    return (
-      <PageWrapper>
-        <div className="container py-120 text-center">
-          <div className="spinner-border text-danger" role="status">
-            <span className="visually-hidden">Loading service...</span>
-          </div>
-          <p className="mt-3 text-muted">Loading service details from Cloudflare D1...</p>
-        </div>
-      </PageWrapper>
-    );
-  }
-
-  if (notFound || !d1Data) {
+  if (notFound && !loading) {
     return (
       <PageWrapper>
         <div className="container py-120 text-center">
@@ -199,11 +186,11 @@ export const DynamicServiceDetailPage: React.FC = () => {
     );
   }
 
-  const title = d1Data.title;
-  const heroTitle = d1Data.hero_title || `${title} for Hotels & Resorts in India`;
-  const heroDescription = d1Data.hero_description || (d1Data.parent_slug ? `Specialized Hospitality Solution` : "Hospitality & Travel Solutions");
-  const shortDescription = d1Data.short_desc || d1Data.short_description || "";
-  const heroPexelsQuery = d1Data.hero_pexels_query || "travel destination";
+  const title = d1Data?.title || (slug ? slug.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) : "Service");
+  const heroTitle = d1Data?.hero_title || `${title} for Hotels & Resorts in India`;
+  const heroDescription = d1Data?.hero_description || (d1Data?.parent_slug ? `Specialized Hospitality Solution` : "Hospitality & Travel Solutions");
+  const shortDescription = d1Data?.short_desc || d1Data?.short_description || "";
+  const heroPexelsQuery = d1Data?.hero_pexels_query || "travel destination";
 
   return (
     <PageWrapper>
@@ -224,7 +211,7 @@ export const DynamicServiceDetailPage: React.FC = () => {
             )}
 
             {/* Dynamic Service Sections loaded 100% from D1 */}
-            {d1Data.sections && d1Data.sections.length > 0 ? (
+            {d1Data?.sections && d1Data.sections.length > 0 ? (
               <div className="service-sections-wrapper mb-5">
                 {d1Data.sections.map((sec, idx) => (
                   <div key={idx} className="p-4 bg-light rounded-3 mb-4 border-start border-danger border-4">
@@ -255,7 +242,7 @@ export const DynamicServiceDetailPage: React.FC = () => {
             )}
 
             {/* CTA action button */}
-            {d1Data.cta_text && (
+            {d1Data?.cta_text && (
               <div className="mt-4 mb-5">
                 <Link
                   to={d1Data.cta_url || "/contact-us.html"}

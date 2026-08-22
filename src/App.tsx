@@ -32,15 +32,6 @@ export function App() {
 
   return (
     <>
-      {/* preloader */}
-      <div id="preloader">
-        <div className="preloader">
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-      {/* preloader end */}
-
       {/* subscribe-popup */}
       <div className="subscribe-popup">
         <div className="tp-shop-popup-wrap">

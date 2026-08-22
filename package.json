@@ -13,6 +13,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@barba/core": "^2.10.3",
     "@gsap/react": "^2.1.2",
     "@tailwindcss/vite": "^4.1.17",
     "gsap": "^3.15.0",
