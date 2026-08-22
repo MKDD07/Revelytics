@@ -7,6 +7,7 @@ import {
   PostboxArea,
   D1BlogPostDetail,
 } from "../../components/sections/blog";
+import TpButton from "../../components/common/TpButton";
 
 export const BlogDetailsPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -75,12 +76,7 @@ export const BlogDetailsPage: React.FC = () => {
           <p className="text-secondary mb-4">
             The requested article <code>{activeSlug}</code> was not found in Cloudflare D1.
           </p>
-          <Link
-            to="/blog"
-            className="tp-btn-white hover-danger text-uppercase px-4 py-2 text-decoration-none fw-bold"
-          >
-            &larr; Back to All Articles
-          </Link>
+          <TpButton to="/blog" text="Back to All Articles" wrapperClassName="d-flex justify-content-center" />
         </div>
       </PageWrapper>
     );

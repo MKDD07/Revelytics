@@ -1,4 +1,5 @@
 import React from "react";
+import { TpBannerThumb } from "../blog/TpBannerThumb";
 
 const arrowIcon = (
   <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,17 +23,10 @@ export const ServiceListSection: React.FC<ServiceListSectionProps> = ({ heading,
   return (
     <>
       {/* tp-banner-thumb */}
-      <div className="tp-banner-thumb fix w-100 scale-up-img">
-        <img
-          data-speed="0.4"
-          data-pexels={bannerImageQuery}
-          data-type="image"
-          data-quality="original"
-          className="img-cover scale-up"
-          src="assets/img/banner/thumb-3.jpg"
-          alt={heading}
-        />
-      </div>
+      <TpBannerThumb
+        imageQuery={bannerImageQuery}
+        altText={heading}
+      />
 
       {/* tp-service-area-start */}
       <div id="service" className="tp-service-area tp-panel-pin-area tp-bg-grey pt-145 pb-90">

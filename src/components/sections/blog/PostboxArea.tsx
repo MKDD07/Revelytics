@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import TpButton from "../../common/TpButton";
 
 export interface BlogContentBlock {
   type: "heading" | "paragraph" | "quote" | "list" | "code" | "image";
@@ -399,16 +400,13 @@ export const PostboxArea: React.FC<PostboxAreaProps> = ({ post }) => {
                           </div>
                         </div>
                         <div className="postbox-details-input-box mt-20">
-                          <button
+                          <TpButton
                             type="submit"
                             disabled={submitting}
-                            className="tp-btn d-inline-flex align-items-center"
-                          >
-                            <span>
-                              <span className="text-1">{submitting ? "Posting..." : "Post Comment"}</span>
-                              <span className="text-2">{submitting ? "Posting..." : "Post Comment"}</span>
-                            </span>
-                          </button>
+                            text={submitting ? "Posting..." : "Post Comment"}
+                            className="d-inline-flex align-items-center"
+                            wrapperClassName=""
+                          />
                         </div>
                       </form>
                     </div>

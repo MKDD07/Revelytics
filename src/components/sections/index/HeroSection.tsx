@@ -1,11 +1,40 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const HeroSection: React.FC = () => {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const heroBgRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    const heroBg = heroBgRef.current;
+    if (!hero || !heroBg) return;
+
+    const ctx = gsap.context(() => {
+      gsap.to(heroBg, {
+        yPercent: 25,
+        scale: 1.12,
+        ease: "none",
+        scrollTrigger: {
+          trigger: hero,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1.2,
+        },
+      });
+    }, hero);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="mg-hero-area mg-hero-spacing">
+    <div ref={heroRef} className="mg-hero-area mg-hero-spacing" style={{ overflow: "hidden" }}>
       <div className="container-fluid container-1886">
         <div className="mg-hero-spacing-inner p-relative z-index-1">
-          <div className="mg-hero-bg">
+          <div ref={heroBgRef} className="mg-hero-bg" style={{ willChange: "transform" }}>
             <video
               data-pexels="Hiker trekking in foggy mountains with backpack"
               data-type="video"

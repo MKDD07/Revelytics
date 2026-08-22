@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { PageWrapper } from "../../layouts/PageWrapper";
 import { ServiceBannerSection, ServiceGallerySection, ServicePricingSection, ServiceCtaSection } from "../../components/sections/service";
+import TpButton from "../../components/common/TpButton";
 
 export interface ServiceSectionItem {
   id: number;
@@ -178,9 +179,7 @@ export const DynamicServiceDetailPage: React.FC = () => {
           <p className="text-secondary mb-4">
             The requested service <code>{slug}</code> is not found in the Cloudflare D1 database.
           </p>
-          <Link to="/" className="tp-btn-white hover-danger text-uppercase px-4 py-2 text-decoration-none fw-bold">
-            &larr; Back to Home
-          </Link>
+          <TpButton to="/" text="Back to Home" wrapperClassName="d-flex justify-content-center" />
         </div>
       </PageWrapper>
     );
@@ -244,12 +243,11 @@ export const DynamicServiceDetailPage: React.FC = () => {
             {/* CTA action button */}
             {d1Data?.cta_text && (
               <div className="mt-4 mb-5">
-                <Link
-                  to={d1Data.cta_url || "/contact-us.html"}
-                  className="tp-btn-white hover-danger text-uppercase px-4 py-3 text-decoration-none fw-bold"
-                >
-                  {d1Data.cta_text} &rarr;
-                </Link>
+                <TpButton
+                  to={d1Data.cta_url || "/contact-us"}
+                  text={d1Data.cta_text}
+                  wrapperClassName=""
+                />
               </div>
             )}
           </div>

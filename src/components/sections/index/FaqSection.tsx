@@ -1,4 +1,5 @@
 import React from "react";
+import TpButton from "../../common/TpButton";
 
 export const FaqSection: React.FC = () => {
   return (
@@ -11,21 +12,7 @@ export const FaqSection: React.FC = () => {
               <img className="mb-10" src="assets/img/faq/faq-thumb.png" alt="" width="300" />
               <h2 className="ca-section-title mb-15">Have Questions</h2>
               <p className="tp-faq-dec mb-35">Let us Know how we can assist</p>
-              <a href="contact-us-light.html" className="tp-btn tp-btn-xl tp-btn-grey tp-btn-switch-animation">
-                <span className="d-flex align-items-center justify-content-center">
-                  <span className="btn-text">Contact Me</span>
-                  <span className="btn-icon">
-                    <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M1 6.36401C0.447715 6.36401 1.67492e-07 6.81173 1.19209e-07 7.36401C7.0927e-08 7.9163 0.447715 8.36401 1 8.36401L1 7.36401L1 6.36401ZM16.7071 8.07112C17.0976 7.6806 17.0976 7.04743 16.7071 6.65691L10.3431 0.292948C9.95262 -0.0975769 9.31946 -0.0975769 8.92893 0.292947C8.53841 0.683472 8.53841 1.31664 8.92893 1.70716L14.5858 7.36401L8.92893 13.0209C8.53841 13.4114 8.53841 14.0446 8.92893 14.4351C9.31946 14.8256 9.95262 14.8256 10.3431 14.4351L16.7071 8.07112ZM1 7.36401L1 8.36401L16 8.36401L16 7.36401L16 6.36402L1 6.36401L1 7.36401Z" fill="currentColor" />
-                    </svg>
-                  </span>
-                  <span className="btn-icon">
-                    <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M1 6.36401C0.447715 6.36401 1.67492e-07 6.81173 1.19209e-07 7.36401C7.0927e-08 7.9163 0.447715 8.36401 1 8.36401L1 7.36401L1 6.36401ZM16.7071 8.07112C17.0976 7.6806 17.0976 7.04743 16.7071 6.65691L10.3431 0.292948C9.95262 -0.0975769 9.31946 -0.0975769 8.92893 0.292947C8.53841 0.683472 8.53841 1.31664 8.92893 1.70716L14.5858 7.36401L8.92893 13.0209C8.53841 13.4114 8.53841 14.0446 8.92893 14.4351C9.31946 14.8256 9.95262 14.8256 10.3431 14.4351L16.7071 8.07112ZM1 7.36401L1 8.36401L16 8.36401L16 7.36401L16 6.36402L1 6.36401L1 7.36401Z" fill="currentColor" />
-                    </svg>
-                  </span>
-                </span> 
-              </a>
+              <TpButton to="/contact-us" text="Contact Me" className="tp-btn-grey tp-btn-switch-animation" wrapperClassName="" />
             </div>
           </div>
           <div className="col-xl-7">

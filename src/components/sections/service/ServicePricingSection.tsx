@@ -1,4 +1,5 @@
 import React from "react";
+import TpButton from "../../common/TpButton";
 
 const CheckIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="11" viewBox="0 0 13 11" fill="none">
@@ -36,12 +37,12 @@ const PlanCard: React.FC<{ plan: PricingPlan }> = ({ plan }) => (
       </ul>
     </div>
     <div className="ds-price-item-btn">
-      <a className="tp-btn tp-btn-border tp-btn-xxl w-100 justify-content-center" href="#">
-        <span>
-          <span className="text-1">Choose your plan</span>
-          <span className="text-2">Choose your plan</span>
-        </span>
-      </a>
+      <TpButton
+        to="/contact-us"
+        text="Choose your plan"
+        className="tp-btn-border tp-btn-xxl w-100 justify-content-center"
+        wrapperClassName=""
+      />
     </div>
   </div>
 );

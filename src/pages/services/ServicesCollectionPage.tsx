@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { PageWrapper } from "../../layouts/PageWrapper";
+import { TpBannerThumb } from "../../components/sections/blog/TpBannerThumb";
 
 export interface D1ServiceItem {
   id: number;
@@ -213,17 +214,10 @@ export const ServicesCollectionPage: React.FC = () => {
       {/* service-us-area-end */}
 
       {/* tp-banner-area-start */}
-      <div className="tp-banner-thumb fix w-100 scale-up-img">
-        <img
-          data-speed="0.4"
-          data-pexels="luxury hotel resort aerial pool sunset"
-          data-type="image"
-          data-quality="original"
-          className="img-cover scale-up"
-          src="/assets/img/banner/thumb-4.jpg"
-          alt="Revelytics Services"
-        />
-      </div>
+      <TpBannerThumb
+        imageQuery="luxury hotel resort aerial pool sunset"
+        altText="Revelytics Services"
+      />
       {/* tp-banner-area-end */}
 
       {/* about-me-resume-area-start */}

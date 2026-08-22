@@ -1,8 +1,42 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import TpButton from "../../common/TpButton";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const AboutSection: React.FC = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const sec = sectionRef.current;
+    if (!sec) return;
+
+    const ctx = gsap.context(() => {
+      sec.querySelectorAll(".tp-about-thumb img").forEach((img) => {
+        gsap.fromTo(
+          img,
+          { yPercent: -12, scale: 1.15 },
+          {
+            yPercent: 12,
+            scale: 1.0,
+            ease: "none",
+            scrollTrigger: {
+              trigger: img.parentElement || img,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.2,
+            },
+          }
+        );
+      });
+    }, sec);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="tp-about-area pt-85">
+    <div ref={sectionRef} className="tp-about-area pt-85">
       <div className="container">
         <div className="row align-items-end">
           <div className="col-xxl-10 col-xl-12">
@@ -11,20 +45,7 @@ export const AboutSection: React.FC = () => {
                 or websites — we craft purpose-driven
                 digital travel journeys.
                 <span className="tp-about-btn-transform d-inline-block ml-20">
-                  <a className="tp-btn tp-ff-inter" href="about-us-light.html">
-                    <span>
-                      <span className="text-1">About Us</span>
-                      <span className="text-2">About Us</span>
-                    </span>
-                    <i>
-                      <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0.21967 9.40717C-0.0732232 9.70006 -0.0732232 10.1749 0.21967 10.4678C0.512563 10.7607 0.987437 10.7607 1.28033 10.4678L0.21967 9.40717ZM10.6875 0.75C10.6875 0.335786 10.3517 2.97145e-09 9.9375 1.50485e-07L3.1875 -2.70983e-07C2.77329 -2.70983e-07 2.4375 0.335786 2.4375 0.75C2.4375 1.16421 2.77329 1.5 3.1875 1.5H9.1875V7.5C9.1875 7.91421 9.52329 8.25 9.9375 8.25C10.3517 8.25 48.0001 42.2091 48 40L48 4ZM4 44L6.82843 46.8284L46.8284 6.82843L44 4L41.1716 1.17157L1.17157 41.1716L4 44Z" fill="currentColor" />
-                      </svg>
-                      <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0.21967 9.40717C-0.0732232 9.70006 -0.0732232 10.1749 0.21967 10.4678C0.512563 10.7607 0.987437 10.7607 1.28033 10.4678L0.21967 9.40717ZM10.6875 0.75C10.6875 0.335786 10.3517 2.97145e-09 9.9375 1.50485e-07L3.1875 -2.70983e-07C2.77329 -2.70983e-07 2.4375 0.335786 2.4375 0.75C2.4375 1.16421 2.77329 1.5 3.1875 1.5H9.1875V7.5C9.1875 7.91421 9.52329 8.25 9.9375 8.25C10.3517 8.25 48.0001 42.2091 48 40L48 4ZM4 44L6.82843 46.8284L46.8284 6.82843L44 4L41.1716 1.17157L1.17157 41.1716L4 44Z" fill="currentColor" />
-                      </svg>
-                    </i>
-                  </a>
+                  <TpButton to="/about" text="About Us" className="tp-ff-inter" wrapperClassName="" />
                 </span>
               </h2>
             </div>
