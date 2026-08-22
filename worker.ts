@@ -21,8 +21,35 @@ export default {
     }
 
     try {
+      // 0. GET / (Root API Status & Index)
+      if (path === "/" || path === "") {
+        return new Response(
+          JSON.stringify(
+            {
+              status: "online",
+              service: "Revelytics Cloudflare Worker & D1 API",
+              database_id: "6f0f1928-9284-4184-8b0e-333ada672515",
+              endpoints: {
+                services: `${url.origin}/api/services`,
+                service_detail: `${url.origin}/api/services/:slug`,
+                pexels_proxy: `${url.origin}/api/pexels?query=luxury+hotel`,
+                serpapi_proxy: `${url.origin}/api/serpapi?q=hotels+in+india`,
+              },
+            },
+            null,
+            2
+          ),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+            },
+          }
+        );
+      }
+
       // 1. GET /api/services or /services
-      if (path === "/api/services" || path === "/services" && request.headers.get("Accept")?.includes("application/json")) {
+      if (path === "/api/services" || path === "/services") {
         const services = await env.DB.prepare(
           "SELECT * FROM services WHERE is_active = 1 ORDER BY display_order ASC, id ASC"
         ).all();
