@@ -3,3 +3,8 @@ export * from "./ServiceListSection";
 export * from "./ServiceGallerySection";
 export * from "./ServicePricingSection";
 export * from "./ServiceCtaSection";
+export * from "./TpServiceDetailsBannerArea";
+export * from "./TpBannerThumb";
+export * from "./TpProcessArea";
+export * from "./TpServiceOverviewArea";
+export * from "./TpFaqArea";
