@@ -1,3 +1,4 @@
+export * from "./BlogCard";
 export * from "./BlogStandardArea";
 export * from "./TpBlogMasonaryArea";
 export * from "./TpBlogGridArea";

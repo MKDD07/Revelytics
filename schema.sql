@@ -112,3 +112,188 @@ INSERT INTO service_sections (service_id, heading, body, pexels_query, image_alt
 INSERT INTO service_sections (service_id, heading, body, pexels_query, image_alt, display_order, is_active) VALUES
 ((SELECT id FROM services WHERE slug = 'hotel-revenue-management-company-in-india'), 'Algorithmic Dynamic Pricing', 'Our proprietary rate intelligence tracks local competitors, airport arrivals, seasonal demand spikes, and city events to automatically adjust room rates 24/7 for optimal RevPAR.', 'revenue chart laptop analytics hotel', 'Dynamic Pricing Strategy', 1, 1),
 ((SELECT id FROM services WHERE slug = 'hotel-revenue-management-company-in-india'), 'OTA Channel Optimization & Yield Control', 'Maintain optimal rate parity, unlock preferential visibility on OTAs like Booking.com and MakeMyTrip, and minimize unsold room inventory on low-demand dates.', 'luxury resort pool sunset', 'OTA Channel Yield Management', 2, 1);
+
+-- ============================================================
+-- BLOG POSTS & COMMENTS SCHEMA
+-- ============================================================
+DROP TABLE IF EXISTS blog_comments;
+DROP TABLE IF EXISTS blog_posts;
+
+CREATE TABLE blog_posts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  slug TEXT UNIQUE NOT NULL,
+
+  title TEXT NOT NULL,
+  content_json TEXT NOT NULL,
+
+  meta_title TEXT NOT NULL,
+  meta_description TEXT NOT NULL,
+  focus_keyword TEXT NOT NULL,
+  canonical_url TEXT NOT NULL,
+
+  og_title TEXT,
+  og_description TEXT,
+  og_image_query TEXT,
+  og_image_alt TEXT NOT NULL,
+
+  schema_type TEXT DEFAULT 'Article',
+  author_name TEXT NOT NULL,
+  author_url TEXT,
+  publisher_name TEXT DEFAULT 'Discovery Convoy',
+  publisher_logo_url TEXT,
+
+  category TEXT NOT NULL,
+  tags TEXT NOT NULL,
+
+  thumb1_query TEXT,
+  thumb1_alt TEXT,
+  thumb2_query TEXT,
+  thumb2_alt TEXT,
+
+  prev_post_slug TEXT,
+  next_post_slug TEXT,
+
+  reading_time_minutes INTEGER,
+  word_count INTEGER,
+
+  published_at TEXT DEFAULT (datetime('now')),
+  updated_at TEXT DEFAULT (datetime('now')),
+  noindex INTEGER DEFAULT 0
+);
+
+CREATE TABLE blog_comments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  post_id INTEGER NOT NULL REFERENCES blog_posts(id) ON DELETE CASCADE,
+  parent_id INTEGER,
+  commenter_name TEXT NOT NULL,
+  commenter_img_query TEXT,
+  comment_text TEXT NOT NULL,
+  commented_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE INDEX idx_comments_post ON blog_comments(post_id);
+CREATE INDEX idx_posts_slug ON blog_posts(slug);
+CREATE INDEX idx_posts_category ON blog_posts(category);
+
+-- SEED BLOG POSTS
+INSERT INTO blog_posts (
+  slug, title, content_json,
+  meta_title, meta_description, focus_keyword, canonical_url,
+  og_title, og_description, og_image_query, og_image_alt,
+  author_name, author_url, publisher_logo_url,
+  category, tags,
+  thumb1_query, thumb1_alt, thumb2_query, thumb2_alt,
+  prev_post_slug, next_post_slug,
+  reading_time_minutes, word_count
+) VALUES 
+(
+  'innovative-strategies-and-concepts-inspired-by-market-research',
+  'Innovative Strategies and Concepts Inspired by Market Research',
+  '[
+    {"type": "heading", "level": 2, "text": "Using a Query to Transform Hospitality Operations"},
+    {"type": "paragraph", "text": "We love to bring designs to life as a developer, and we aim to do this using whatever front-end tools are necessary. My preferred tools are modern JavaScript libraries like React.js and Cloudflare Workers, tailored to high-load scalability. There are several reasons why a hospitality business would consider a digital revamp, creating fresh direct booking streams across India and Southeast Asia."},
+    {"type": "paragraph", "text": "Market research reveals that over 65% of hotel booking decisions begin with visual storytelling and responsive search engine discovery. Crafting a high-speed reservation flow is critical for capturing guest loyalty."},
+    {"type": "heading", "level": 2, "text": "The Spark of an Idea in Modern Hotel Analytics"},
+    {"type": "paragraph", "text": "Revenue analytics combined with targeted performance marketing allow boutique resorts and hotel chains to forecast seasonal spikes, optimize RevPAR, and maintain dynamic rate parity across 100+ OTAs effortlessly."},
+    {"type": "quote", "text": "Success in modern hotel marketing is the result of deep data analytics, continuous experimentation, and delivering frictionless guest experiences.", "author": "Revelytics Strategy Team"},
+    {"type": "heading", "level": 2, "text": "On the Specificity of Digital Marketing & Distribution"},
+    {"type": "paragraph", "text": "A robust direct booking engine integrated with real-time UPI and card processing can eliminate heavy OTA commissions, boosting overall profitability by 18% to 32% within the first two quarters."},
+    {"type": "list", "items": [
+      "Targeted Google Hotel Ads with automated ROAS bidding",
+      "Dynamic pricing engine responding to airport passenger inflow",
+      "High-speed mobile checkout with instant WhatsApp confirmation",
+      "Automated guest loyalty re-engagement email sequences"
+    ]}
+  ]',
+  'Innovative Strategies for Hotel Marketing | Revelytics Blog',
+  'Discover how data-driven market research and modern web design drive direct hotel bookings and maximize RevPAR.',
+  'hotel digital marketing strategies',
+  'https://www.revlytics.in/blog/innovative-strategies-and-concepts-inspired-by-market-research',
+  'Innovative Strategies and Concepts Inspired by Market Research',
+  'How luxury hotels and resorts in India leverage predictive data and dynamic marketing to grow ARR.',
+  'luxury resort infinity pool sunset tropical',
+  'Luxury Resort Sunset View',
+  'Revelytics Editorial Team',
+  'https://www.revlytics.in/about-us',
+  'https://www.revlytics.in/assets/img/logo/logo.svg',
+  'Marketing Strategy',
+  'Hospitality, Digital Marketing, Revenue Management, Direct Bookings',
+  'hotel revenue analytics laptop screen luxury', 'Hotel Analytics Dashboard',
+  'resort guest checking in mobile smartphone', 'Seamless Guest Check-in',
+  NULL,
+  'transform-your-hotel-brand-into-seamless-digital-experiences',
+  5,
+  1250
+),
+(
+  'transform-your-hotel-brand-into-seamless-digital-experiences',
+  'Transform Your Hotel Brand into Seamless Digital Experiences',
+  '[
+    {"type": "heading", "level": 2, "text": "The Evolution of Hotel Digital Presence"},
+    {"type": "paragraph", "text": "From architectural drone tours to lightning-fast mobile booking engines, modern hotel websites serve as the primary storefront for high-net-worth travelers and corporate event organizers."},
+    {"type": "paragraph", "text": "Implementing intuitive navigation, crisp typography, and captivating visual galleries ensures potential guests spend more time exploring your suites and amenities."},
+    {"type": "quote", "text": "Your website is not merely an online brochure—it is your most profitable direct sales executive working 24/7.", "author": "Discovery Convoy"},
+    {"type": "heading", "level": 2, "text": "Maximizing Conversion Rates with Cloudflare-Powered Speed"},
+    {"type": "paragraph", "text": "Sub-second load times powered by edge caching and Cloudflare D1 ensure guests never abandon their booking due to lag or checkout friction."}
+  ]',
+  'Transform Your Hotel Brand into Seamless Digital Experiences | Revelytics',
+  'Learn the core principles of building high-converting luxury hotel websites with edge technology.',
+  'hotel web design direct bookings',
+  'https://www.revlytics.in/blog/transform-your-hotel-brand-into-seamless-digital-experiences',
+  'Transform Your Hotel Brand into Seamless Digital Experiences',
+  'Architecting high-converting visual websites for resorts and heritage hotels.',
+  'boutique hotel lobby interior design luxury',
+  'Boutique Hotel Lobby',
+  'Revelytics Tech Team',
+  'https://www.revlytics.in/about-us',
+  'https://www.revlytics.in/assets/img/logo/logo.svg',
+  'Web Design',
+  'Web Development, Luxury Hotels, UI/UX, Cloudflare',
+  'hotel bedroom suite ocean view terrace', 'Luxury Suite Interior',
+  'fine dining hotel restaurant table setting', 'Fine Dining Experience',
+  'innovative-strategies-and-concepts-inspired-by-market-research',
+  'how-to-reduce-ota-commissions-and-grow-direct-bookings',
+  4,
+  980
+),
+(
+  'how-to-reduce-ota-commissions-and-grow-direct-bookings',
+  'How to Reduce OTA Commissions & Grow Direct Bookings in 2026',
+  '[
+    {"type": "heading", "level": 2, "text": "The OTA Dependency Trap"},
+    {"type": "paragraph", "text": "Hotels in India routinely surrender 18% to 28% of their gross revenue in OTA commissions. By deploying a comprehensive direct booking ecosystem, properties can reclaim their margins while owning the direct guest relationship."},
+    {"type": "paragraph", "text": "Offering exclusive perks like complimentary breakfast, room upgrades, flexible cancellation, and seamless UPI checkout makes booking direct the obvious choice for guests."},
+    {"type": "heading", "level": 2, "text": "Key Tactics for Direct Acquisition"},
+    {"type": "list", "items": [
+      "Meta Search Optimization (Google Hotel Ads & Trivago)",
+      "Instant WhatsApp booking confirmations and concierge support",
+      "Automated post-checkout review generation workflows",
+      "Retargeting website visitors with dynamic room availability ads"
+    ]}
+  ]',
+  'How to Reduce OTA Commissions for Hotels | Revelytics Guide',
+  'Practical strategies to boost direct hotel reservations and reclaim your bottom line.',
+  'hotel direct booking strategies',
+  'https://www.revlytics.in/blog/how-to-reduce-ota-commissions-and-grow-direct-bookings',
+  'How to Reduce OTA Commissions & Grow Direct Bookings in 2026',
+  'Reclaim your profit margins with direct booking optimization.',
+  'hotel booking engine checkout laptop credit card',
+  'Direct Booking Engine Checkout',
+  'Revenue Advisory Lead',
+  'https://www.revlytics.in/about-us',
+  'https://www.revlytics.in/assets/img/logo/logo.svg',
+  'Revenue Growth',
+  'OTAs, Commission Reduction, Booking Engine, ROI',
+  'hotel management team meeting revenue discussion', 'Revenue Strategy Meeting',
+  'hotel guest checking into luxury resort reception', 'Hotel Checkin',
+  'transform-your-hotel-brand-into-seamless-digital-experiences',
+  NULL,
+  6,
+  1420
+);
+
+-- SEED COMMENTS
+INSERT INTO blog_comments (post_id, commenter_name, commenter_img_query, comment_text) VALUES
+(1, 'Harun Rashid', 'professional businessman smiling portrait', 'Outstanding breakdown! Implementing dynamic pricing directly transformed our weekend occupancy numbers.'),
+(1, 'Oliver Williams', 'hotel general manager resort smiling portrait', 'The analysis on direct booking engine conversion rates is spot on. Reducing OTA dependency is our top priority this fiscal year.');
+

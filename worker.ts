@@ -142,6 +142,149 @@ export default {
         });
       }
 
+      // 5. GET /api/blog (or /api/blog-posts)
+      if (path === "/api/blog" || path === "/api/blog-posts") {
+        const category = url.searchParams.get("category");
+        const tag = url.searchParams.get("tag");
+        const search = url.searchParams.get("q") || url.searchParams.get("search");
+
+        let query = "SELECT * FROM blog_posts WHERE noindex = 0";
+        const params: any[] = [];
+
+        if (category) {
+          query += " AND category = ?";
+          params.push(category);
+        }
+
+        if (tag) {
+          query += " AND tags LIKE ?";
+          params.push(`%${tag}%`);
+        }
+
+        if (search) {
+          query += " AND (title LIKE ? OR meta_description LIKE ? OR category LIKE ?)";
+          params.push(`%${search}%`, `%${search}%`, `%${search}%`);
+        }
+
+        query += " ORDER BY published_at DESC, id DESC";
+
+        const stmt = env.DB.prepare(query);
+        const posts = params.length > 0 ? await stmt.bind(...params).all() : await stmt.all();
+
+        return new Response(JSON.stringify(posts.results || []), {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        });
+      }
+
+      // 6. GET /api/blog/:slug or POST /api/blog/:slug/comments
+      if (path.startsWith("/api/blog/")) {
+        const subPath = path.replace("/api/blog/", "").trim();
+
+        // Handle comment creation: POST /api/blog/:slug/comments
+        if (subPath.endsWith("/comments") && request.method === "POST") {
+          const postSlug = subPath.replace("/comments", "").trim();
+          const post: any = await env.DB.prepare("SELECT id FROM blog_posts WHERE slug = ?")
+            .bind(postSlug)
+            .first();
+
+          if (!post) {
+            return new Response(JSON.stringify({ error: "Post not found" }), {
+              status: 404,
+              headers: { "Content-Type": "application/json", ...corsHeaders },
+            });
+          }
+
+          const body: any = await request.json().catch(() => ({}));
+          const commenterName = body.commenter_name || body.name || "Guest";
+          const commentText = body.comment_text || body.comment || "";
+          const commenterImg = body.commenter_img_query || "professional person portrait avatar";
+
+          if (!commentText) {
+            return new Response(JSON.stringify({ error: "Comment text is required" }), {
+              status: 400,
+              headers: { "Content-Type": "application/json", ...corsHeaders },
+            });
+          }
+
+          const insertRes = await env.DB.prepare(
+            "INSERT INTO blog_comments (post_id, commenter_name, commenter_img_query, comment_text) VALUES (?, ?, ?, ?)"
+          )
+            .bind(post.id, commenterName, commenterImg, commentText)
+            .run();
+
+          return new Response(JSON.stringify({ success: true, id: insertRes.meta?.last_row_id }), {
+            status: 201,
+            headers: { "Content-Type": "application/json", ...corsHeaders },
+          });
+        }
+
+        // GET single post details
+        const slug = subPath;
+        const post: any = await env.DB.prepare(
+          "SELECT * FROM blog_posts WHERE slug = ?"
+        )
+          .bind(slug)
+          .first();
+
+        if (!post) {
+          return new Response(JSON.stringify({ error: "Post not found" }), {
+            status: 404,
+            headers: { "Content-Type": "application/json", ...corsHeaders },
+          });
+        }
+
+        // Fetch comments for this post
+        const comments = await env.DB.prepare(
+          "SELECT * FROM blog_comments WHERE post_id = ? ORDER BY commented_at DESC, id DESC"
+        )
+          .bind(post.id)
+          .all();
+
+        // Fetch prev and next posts if slugs exist
+        let prevPost = null;
+        let nextPost = null;
+
+        if (post.prev_post_slug) {
+          prevPost = await env.DB.prepare(
+            "SELECT slug, title, og_image_query FROM blog_posts WHERE slug = ?"
+          )
+            .bind(post.prev_post_slug)
+            .first();
+        }
+
+        if (post.next_post_slug) {
+          nextPost = await env.DB.prepare(
+            "SELECT slug, title, og_image_query FROM blog_posts WHERE slug = ?"
+          )
+            .bind(post.next_post_slug)
+            .first();
+        }
+
+        // Parse content_json if string
+        let parsedContent = [];
+        try {
+          parsedContent = typeof post.content_json === "string" ? JSON.parse(post.content_json) : post.content_json;
+        } catch {
+          parsedContent = [{ type: "paragraph", text: post.content_json }];
+        }
+
+        return new Response(
+          JSON.stringify({
+            ...post,
+            content: parsedContent,
+            comments: comments.results || [],
+            prev_post: prevPost,
+            next_post: nextPost,
+          }),
+          {
+            headers: { "Content-Type": "application/json", ...corsHeaders },
+          }
+        );
+      }
+
       // ─── STATIC SITE (React App) ────────────────────────────────────────────
       // For all non-API routes, serve the React app from the dist/ folder.
       // For SPA routing: unknown paths → return index.html so React Router handles it.

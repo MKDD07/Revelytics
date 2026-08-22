@@ -1,13 +1,118 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 import { PageWrapper } from "../../layouts/PageWrapper";
-import { TpBannerThumb, PostboxArea, TpBlogGridArea } from "../../components/sections/blog";
+import {
+  TpBlogGridArea,
+  TpBannerThumb,
+  PostboxArea,
+  D1BlogPostDetail,
+} from "../../components/sections/blog";
 
 export const BlogDetailsPage: React.FC = () => {
+  const { slug } = useParams<{ slug: string }>();
+  const activeSlug = slug || "innovative-strategies-and-concepts-inspired-by-market-research";
+
+  const [post, setPost] = useState<D1BlogPostDetail | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [notFound, setNotFound] = useState<boolean>(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setNotFound(false);
+
+    fetch(`/api/blog/${activeSlug}`)
+      .then((res) => {
+        if (res.status === 404) {
+          setNotFound(true);
+          return null;
+        }
+        if (!res.ok) throw new Error("Failed to load blog post");
+        return res.json();
+      })
+      .then((data) => {
+        if (data && data.title) {
+          setPost(data);
+          setNotFound(false);
+        } else {
+          setNotFound(true);
+        }
+      })
+      .catch(() => {
+        setNotFound(true);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [activeSlug]);
+
+  // Update Page Title and Meta description dynamically
+  useEffect(() => {
+    if (post) {
+      document.title = post.meta_title || `${post.title} | Revelytics Blog`;
+      if (post.meta_description) {
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) {
+          metaDesc.setAttribute("content", post.meta_description);
+        }
+      }
+    }
+  }, [post]);
+
+  // Trigger Pexels loader
+  useEffect(() => {
+    if (!loading && post && (window as any).PexelsLoader) {
+      setTimeout(() => {
+        (window as any).PexelsLoader?.loadAll();
+      }, 100);
+    }
+  }, [loading, post]);
+
+  if (loading) {
+    return (
+      <PageWrapper>
+        <div className="container py-120 text-center">
+          <div className="spinner-border text-danger" role="status">
+            <span className="visually-hidden">Loading article from Cloudflare D1...</span>
+          </div>
+          <p className="mt-3 text-muted">Fetching article from Cloudflare D1...</p>
+        </div>
+      </PageWrapper>
+    );
+  }
+
+  if (notFound || !post) {
+    return (
+      <PageWrapper>
+        <div className="container py-120 text-center">
+          <h2 className="tp-ff-sequel-medium fs-36 text-danger mb-3">Article Not Found</h2>
+          <p className="text-secondary mb-4">
+            The requested article <code>{activeSlug}</code> was not found in Cloudflare D1.
+          </p>
+          <Link
+            to="/blog"
+            className="tp-btn-white hover-danger text-uppercase px-4 py-2 text-decoration-none fw-bold"
+          >
+            &larr; Back to All Articles
+          </Link>
+        </div>
+      </PageWrapper>
+    );
+  }
+
   return (
     <PageWrapper>
-      <TpBannerThumb />
-      <PostboxArea />
-      <TpBlogGridArea />
+      <TpBlogGridArea
+        title={post.title}
+        authorName={post.author_name}
+        publishedAt={post.published_at}
+        category={post.category}
+        readingTime={post.reading_time_minutes}
+      />
+      <TpBannerThumb
+        imageQuery={post.og_image_query || `${post.category} luxury resort`}
+        altText={post.og_image_alt || post.title}
+      />
+      <PostboxArea post={post} />
     </PageWrapper>
   );
 };
