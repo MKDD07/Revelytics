@@ -1,168 +1,103 @@
-import React from "react";
+import React, { useState } from "react";
 
 export interface TpFaqAreaProps {
   service?: any;
 }
 
 export const TpFaqArea: React.FC<TpFaqAreaProps> = ({ service }) => {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const title = service?.title || "Hospitality Services";
+
+  // Tailored FAQs based on service or defaults
+  const faqs = [
+    {
+      q: `How quickly can we see results with ${title}?`,
+      a: `Most partner hotels and resorts observe measurable improvements in ARR, direct website conversion rates, and OTA ranking within the first 30 to 45 days of active deployment.`,
+    },
+    {
+      q: `How does Revelytics handle OTA rate parity?`,
+      a: `We utilize real-time algorithmic rate intelligence and two-way channel synchronization to ensure your direct booking engine always maintains an advantage (exclusive perks, room upgrades, flexible policies) while preventing OTA parity penalties.`,
+    },
+    {
+      q: `Can this service integrate with our existing PMS and Channel Manager?`,
+      a: `Yes, we integrate seamlessly with major Property Management Systems (PMS) like Opera, IDS Next, Hotelogix, eZee, and leading channel managers like SiteMinder, RateGain, and STAAH.`,
+    },
+    {
+      q: `What contract terms and onboarding support do you provide?`,
+      a: `We offer flexible monthly and quarterly engagement models. Every property is assigned a dedicated senior account strategist with 24/7 priority support.`,
+    },
+  ];
+
+  const toggleFaq = (idx: number) => {
+    setOpenIndex(openIndex === idx ? null : idx);
+  };
+
   return (
-<>
-  {/* tp-faq-area-start */}
-  <div className="tp-faq-area pb-130">
-    <div className="container">
-      <div className="row">
-        <div className="col-xxl-5 col-xl-3">
-          <div className="tp-faq-subtitle mb-30">
-            <span className="text-uppercase fw-500">Why Chose us</span>
+    <div className="tp-faq-area pt-100 pb-120" style={{ background: "#0c0c0e" }}>
+      <div className="container">
+        <div className="row justify-content-center text-center mb-60">
+          <div className="col-lg-8">
+            <span className="text-danger fw-bold text-uppercase fs-13 d-block mb-2">
+              [ Frequently Asked Questions ]
+            </span>
+            <h2 className="tp-ff-sequel-bold-head text-uppercase text-white fs-40 lh-1">
+              Everything You Need to Know
+            </h2>
+            <p className="text-secondary fs-16 mt-3">
+              Clear answers regarding implementation, integrations, and expected outcomes for your hotel property.
+            </p>
           </div>
         </div>
-        <div className="col-xxl-7 col-xl-9">
-          <div className="tp-faq tp-service-details-faq-one tp-service-details-faq mb-30">
-            <h2 className="tp-section-title reveal-text fs-72 mb-30">
-              At cunnet, we don’t just
-              <br />
-              build website or campaigns
-              <br />
-              we craft purpose.
-            </h2>
-            <div className="accordion" id="accordionExample">
-              <div className="tp-faq-item tp_fade_anim" data-delay=".3">
-                <h2 className="accordion-header">
-                  <button
-                    className="tp-faq-button"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseOne"
-                    aria-expanded="true"
-                    aria-controls="collapseOne"
+
+        <div className="row justify-content-center">
+          <div className="col-lg-9">
+            <div className="d-flex flex-column gap-3">
+              {faqs.map((faq, idx) => {
+                const isOpen = openIndex === idx;
+                return (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-4 border border-secondary"
+                    style={{
+                      background: isOpen ? "#16161a" : "#101013",
+                      transition: "all 0.3s ease",
+                    }}
                   >
-                    01. Complete Brand Design
-                  </button>
-                </h2>
-                <div
-                  id="collapseOne"
-                  className="tp-faq-collapse collapse show"
-                  data-bs-parent="#accordionExample"
-                >
-                  <div className="tp-faq-body">
-                    <p>
-                      Branding design is the process of creating a unique
-                      identity that visually and
-                      <br />
-                      strategically represents a business. It includes logo
-                      design, color schemes typography,
-                      <br />
-                      and brand messaging to ensure consistency across all
-                      platforms.
-                    </p>
+                    <button
+                      type="button"
+                      className="btn w-100 text-start p-0 d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
+                      onClick={() => toggleFaq(idx)}
+                    >
+                      <span className="fs-18 fw-bold pe-3">{faq.q}</span>
+                      <span
+                        className="badge bg-danger rounded-circle p-2 fs-14"
+                        style={{
+                          width: "28px",
+                          height: "28px",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                          transition: "transform 0.3s ease",
+                        }}
+                      >
+                        {isOpen ? "−" : "+"}
+                      </span>
+                    </button>
+
+                    {isOpen && (
+                      <div className="mt-3 pt-3 border-top border-secondary text-secondary fs-15 lh-lg">
+                        {faq.a}
+                      </div>
+                    )}
                   </div>
-                </div>
-              </div>
-              <div className="tp-faq-item tp_fade_anim" data-delay=".3">
-                <h2 className="accordion-header">
-                  <button
-                    className="tp-faq-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseTwo"
-                    aria-expanded="false"
-                    aria-controls="collapseTwo"
-                  >
-                    02. Logo Design
-                  </button>
-                </h2>
-                <div
-                  id="collapseTwo"
-                  className="tp-faq-collapse collapse"
-                  data-bs-parent="#accordionExample"
-                >
-                  <div className="tp-faq-body">
-                    <p>
-                      Branding design is the process of creating a unique
-                      identity that visually and
-                      <br />
-                      strategically represents a business. It includes logo
-                      design, color schemes typography,
-                      <br />
-                      and brand messaging to ensure consistency across all
-                      platforms.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="tp-faq-item tp_fade_anim" data-delay=".3">
-                <h2 className="accordion-header">
-                  <button
-                    className="tp-faq-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseThree"
-                    aria-expanded="false"
-                    aria-controls="collapseThree"
-                  >
-                    03. Graphic Design
-                  </button>
-                </h2>
-                <div
-                  id="collapseThree"
-                  className="tp-faq-collapse collapse"
-                  data-bs-parent="#accordionExample"
-                >
-                  <div className="tp-faq-body">
-                    <p>
-                      Branding design is the process of creating a unique
-                      identity that visually and
-                      <br />
-                      strategically represents a business. It includes logo
-                      design, color schemes typography,
-                      <br />
-                      and brand messaging to ensure consistency across all
-                      platforms.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="tp-faq-item tp_fade_anim" data-delay=".3">
-                <h2 className="accordion-header">
-                  <button
-                    className="tp-faq-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseFour"
-                    aria-expanded="false"
-                    aria-controls="collapseFour"
-                  >
-                    03. Infographic An other
-                  </button>
-                </h2>
-                <div
-                  id="collapseFour"
-                  className="tp-faq-collapse collapse"
-                  data-bs-parent="#accordionExample"
-                >
-                  <div className="tp-faq-body">
-                    <p>
-                      Branding design is the process of creating a unique
-                      identity that visually and
-                      <br />
-                      strategically represents a business. It includes logo
-                      design, color schemes typography,
-                      <br />
-                      and brand messaging to ensure consistency across all
-                      platforms.
-                    </p>
-                  </div>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  {/* tp-faq-area-end */}
-</>
-
   );
 };
 

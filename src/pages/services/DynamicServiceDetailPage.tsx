@@ -91,17 +91,87 @@ export const DynamicServiceDetailPage: React.FC = () => {
       });
   }, [slug]);
 
-  // Update Page Title and Meta description dynamically
+  // Update SEO Meta tags and JSON-LD structured schema dynamically
   useEffect(() => {
-    if (d1Data) {
-      document.title = d1Data.meta_title || `${d1Data.title} | Revelytics`;
-      if (d1Data.meta_description) {
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) {
-          metaDesc.setAttribute("content", d1Data.meta_description);
-        }
+    if (!d1Data) return;
+
+    // 1. Title & Meta description
+    document.title = d1Data.meta_title || `${d1Data.title} | Revelytics Hospitality Solutions`;
+
+    const setMeta = (name: string, content: string, isProperty = false) => {
+      const attr = isProperty ? "property" : "name";
+      let el = document.querySelector(`meta[${attr}="${name}"]`);
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute(attr, name);
+        document.head.appendChild(el);
       }
+      el.setAttribute("content", content);
+    };
+
+    if (d1Data.meta_description || d1Data.short_desc) {
+      setMeta("description", d1Data.meta_description || d1Data.short_desc || "");
     }
+    if (d1Data.meta_keywords || d1Data.focus_keyword) {
+      setMeta("keywords", d1Data.meta_keywords || d1Data.focus_keyword || "hospitality marketing, revenue management");
+    }
+    setMeta("robots", d1Data.meta_robots || "index, follow");
+
+    // 2. OpenGraph
+    const canonical = d1Data.canonical_url || `https://www.revlytics.in/services/${d1Data.slug}`;
+    setMeta("og:title", d1Data.og_title || d1Data.title, true);
+    setMeta("og:description", d1Data.og_description || d1Data.meta_description || d1Data.short_desc || "", true);
+    setMeta("og:url", canonical, true);
+    setMeta("og:type", d1Data.og_type || "website", true);
+    setMeta("og:site_name", d1Data.og_site_name || "Revelytics", true);
+
+    // 3. Twitter
+    setMeta("twitter:card", d1Data.twitter_card || "summary_large_image");
+    setMeta("twitter:title", d1Data.twitter_title || d1Data.title);
+    setMeta("twitter:description", d1Data.twitter_description || d1Data.meta_description || "");
+
+    // 4. Canonical link tag
+    let linkCanonical = document.querySelector('link[rel="canonical"]');
+    if (!linkCanonical) {
+      linkCanonical = document.createElement("link");
+      linkCanonical.setAttribute("rel", "canonical");
+      document.head.appendChild(linkCanonical);
+    }
+    linkCanonical.setAttribute("href", canonical);
+
+    // 5. JSON-LD Structured Data Schema
+    let scriptSchema = document.getElementById("revelytics-service-schema");
+    if (!scriptSchema) {
+      scriptSchema = document.createElement("script");
+      scriptSchema.id = "revelytics-service-schema";
+      scriptSchema.setAttribute("type", "application/ld+json");
+      document.head.appendChild(scriptSchema);
+    }
+
+    const schemaObj = d1Data.schema_json
+      ? JSON.parse(d1Data.schema_json)
+      : {
+          "@context": "https://schema.org",
+          "@type": d1Data.schema_type || "Service",
+          "name": d1Data.title,
+          "description": d1Data.meta_description || d1Data.short_desc,
+          "provider": {
+            "@type": "Organization",
+            "name": "Revelytics",
+            "url": "https://www.revlytics.in",
+          },
+          "serviceType": "Hospitality & Hotel Revenue Management",
+          "areaServed": "India",
+          "url": canonical,
+        };
+
+    scriptSchema.textContent = JSON.stringify(schemaObj);
+
+    return () => {
+      if (scriptSchema && scriptSchema.parentNode) {
+        scriptSchema.parentNode.removeChild(scriptSchema);
+      }
+    };
   }, [d1Data]);
 
   if (notFound && !loading) {
