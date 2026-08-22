@@ -202,6 +202,9 @@ export const PostboxArea: React.FC<PostboxAreaProps> = ({ post }) => {
                               data-pexels={post.thumb1_query}
                               data-type="image"
                               data-quality="large"
+                              style={{
+                                borderRadius: "24px",
+                              }}
                               className="w-100"
                               src="/assets/img/blog/details/thumb.jpg"
                               alt={post.thumb1_alt || ""}
@@ -217,6 +220,9 @@ export const PostboxArea: React.FC<PostboxAreaProps> = ({ post }) => {
                               data-type="image"
                               data-quality="large"
                               className="w-100"
+                                                            style={{
+                                borderRadius: "24px",
+                              }}
                               src="/assets/img/blog/details/thumb-2.jpg"
                               alt={post.thumb2_alt || ""}
                             />

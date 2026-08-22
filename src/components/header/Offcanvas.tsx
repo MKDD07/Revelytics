@@ -126,6 +126,9 @@ export const Offcanvas: React.FC = () => {
                 <li>
                   <Link to="/career">Career</Link>
                 </li>
+                <li>
+                  <Link to="/dashboard" className="text-danger fw-bold">⚡ AI Studio &amp; Dashboard</Link>
+                </li>
               </ul>
             </nav>
           </div>

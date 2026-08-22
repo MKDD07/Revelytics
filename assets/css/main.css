@@ -8353,13 +8353,14 @@ body.tp-magic-cursor #magic-cursor {
   z-index: 3;
 }
 .inner-service-2-title {
-  font-size: 200px;
+  font-size: 96px;
   letter-spacing: -0.05em;
   line-height: 0.97;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
   .inner-service-2-title {
-    font-size: 170px;
+    font-size: 96px;
+    font-weight: bold;
   }
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {

@@ -9,6 +9,7 @@ import ServicesCollectionPage from "./pages/services/ServicesCollectionPage";
 import DynamicServiceDetailPage from "./pages/services/DynamicServiceDetailPage";
 import BlogCollectionPage from "./pages/blog/BlogCollectionPage";
 import BlogDetailsPage from "./pages/blog/BlogDetailsPage";
+import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
 import { ScrollToTop } from "./components/utils/ScrollToTop";
 import { BarbaPageTransition } from "./components/transitions/BarbaPageTransition";
 import { SmoothScroll } from "./components/common/SmoothScroll";
@@ -31,6 +32,8 @@ root.render(
             <Route path="/blog" element={<BlogCollectionPage />} />
             <Route path="/blog/:slug" element={<BlogDetailsPage />} />
             <Route path="/blog-details" element={<BlogDetailsPage />} />
+            <Route path="/dashboard" element={<AdminDashboardPage />} />
+            <Route path="/admin" element={<AdminDashboardPage />} />
           </Routes>
         </BarbaPageTransition>
       </SmoothScroll>
