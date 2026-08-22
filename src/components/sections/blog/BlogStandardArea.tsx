@@ -1,32 +1,22 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-interface BlogStandardAreaProps {
-  title?: string;
-  subtitle?: string;
-}
-
-export const BlogStandardArea: React.FC<BlogStandardAreaProps> = ({
-  title = "Insights & Hospitality Strategies",
-  subtitle = "Explore our latest case studies, revenue management deep-dives, and digital growth frameworks for hotels & resorts in India.",
-}) => {
+export const BlogStandardArea: React.FC = () => {
   return (
-    <div className="blog-standard-area tp-pd-2-ptb pt-175 pb-70">
+    <div className="tp-blog-grid-area tp-pd-2-ptb pt-175 pb-120">
       <div className="container">
         <div className="row">
-          <div className="col-12 text-center">
-            <div className="tp-pd-2-top">
-              <span className="text-danger fw-bold text-uppercase mb-2 d-block tp_fade_anim" data-delay=".2">
-                Revelytics Knowledge Hub
-              </span>
-              <h1
-                className="tp-section-title tp-ff-sequel-bold-head fs-64 mb-20 tp_fade_anim"
-                data-delay=".3"
-              >
-                {title}
-              </h1>
-              <p className="text-secondary fs-18 mx-auto tp_fade_anim" data-delay=".4" style={{ maxWidth: "700px" }}>
-                {subtitle}
-              </p>
+          <div className="col-12">
+            <div className="tp-pd-2-top tp-breadcrumb-border pb-15">
+              <h3 className="tp-section-title fs-72 tp_fade_anim mb-20" data-delay=".5">
+                Inside Story Report
+              </h3>
+              <div className="tp-pd-2-categories mb-10 tp_fade_anim" data-delay=".3">
+                <span>
+                  <Link to="/">Website</Link>
+                </span>
+                <span>Blog</span>
+              </div>
             </div>
           </div>
         </div>

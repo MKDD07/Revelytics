@@ -29,7 +29,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
   delay = ".3",
   fallbackImg = "/assets/img/blog/col-4/thumb.jpg",
 }) => {
-  const pexelsQuery = post.og_image_query || post.thumb1_query || `${post.category} luxury hotel`;
+  const pexelsQuery = post.og_image_query || post.thumb1_query || "luxury hotel resort";
   const postDate = post.published_at
     ? new Date(post.published_at).getFullYear()
     : "2026";
@@ -49,24 +49,19 @@ export const BlogCard: React.FC<BlogCardProps> = ({
             data-type="image"
             data-quality="large"
             className="w-100"
-            style={{ height: "260px", objectFit: "cover" }}
             src={fallbackImg}
-            alt={post.og_image_alt || post.title}
+            alt={post.og_image_alt || ""}
           />
         </div>
       </Link>
       <div className="mp-blog-content">
-        <span className="badge bg-light text-dark border mb-2 px-2 py-1 small">{post.category}</span>
-        <h2 className="mp-blog-title tp-ff-sequel-semi-bold mb-10 fs-20">
-          <Link to={`/blog/${post.slug}`} className="common-underline text-decoration-none">
+        <h2 className="mp-blog-title tp-ff-sequel-semi-bold mb-10">
+          <Link to={`/blog/${post.slug}`} className="common-underline">
             {post.title}
           </Link>
         </h2>
-        <span className="mp-blog-date d-flex align-items-center gap-2">
-          <span>By</span> {post.author_name || "Revelytics Team"} — {postDate}
-          {post.reading_time_minutes && (
-            <span className="text-muted small ms-2">({post.reading_time_minutes} min read)</span>
-          )}
+        <span className="mp-blog-date">
+          <span>By</span> {post.author_name} - {postDate}
         </span>
       </div>
     </div>

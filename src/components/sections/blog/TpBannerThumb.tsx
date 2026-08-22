@@ -3,13 +3,11 @@ import React from "react";
 interface TpBannerThumbProps {
   imageQuery?: string;
   altText?: string;
-  fallbackSrc?: string;
 }
 
 export const TpBannerThumb: React.FC<TpBannerThumbProps> = ({
   imageQuery = "luxury hotel resort aerial pool sunset",
-  altText = "Revelytics Blog Featured Image",
-  fallbackSrc = "/assets/img/banner/thumb-7.jpg",
+  altText = "",
 }) => {
   return (
     <div className="tp-banner-thumb fix w-100 scale-up-img">
@@ -19,8 +17,7 @@ export const TpBannerThumb: React.FC<TpBannerThumbProps> = ({
         data-type="image"
         data-quality="original"
         className="img-cover scale-up"
-        style={{ width: "100%", maxHeight: "550px", objectFit: "cover" }}
-        src={fallbackSrc}
+        src="/assets/img/banner/thumb-7.jpg"
         alt={altText}
       />
     </div>

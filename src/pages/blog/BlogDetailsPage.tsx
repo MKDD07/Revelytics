@@ -105,8 +105,6 @@ export const BlogDetailsPage: React.FC = () => {
         title={post.title}
         authorName={post.author_name}
         publishedAt={post.published_at}
-        category={post.category}
-        readingTime={post.reading_time_minutes}
       />
       <TpBannerThumb
         imageQuery={post.og_image_query || `${post.category} luxury resort`}
