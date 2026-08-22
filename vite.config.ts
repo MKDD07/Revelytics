@@ -1,0 +1,33 @@
+/// <reference types="vitest" />
+/// <reference types="vite/client" />
+
+import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import { fileURLToPath } from "url";
+import path from "path";
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      "@": path.resolve(fileURLToPath(new URL(".", import.meta.url)), "./src"),
+    },
+  },
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://revelytics.mkmkataria07.workers.dev",
+        changeOrigin: true,
+        secure: true,
+      },
+    },
+  },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./vitest.setup.ts",
+    css: true,
+  },
+});
